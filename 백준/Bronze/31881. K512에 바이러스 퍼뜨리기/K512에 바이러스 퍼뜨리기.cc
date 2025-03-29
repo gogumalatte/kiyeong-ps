@@ -1,32 +1,45 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int n, q, q_num, temp;
-set<int> s;
-
 int main()
 {
     ios::sync_with_stdio(false);
     cin.tie(0);
     cout.tie(0);
 
+    int n, q;
     cin >> n >> q;
+    vector<bool> infected(n + 1, false);
+    int uninfectedCount = n;
+
     for (int i = 0; i < q; i++)
     {
-        cin >> q_num;
-        if (q_num == 1)
+        int command;
+        cin >> command;
+
+        if (command == 1)
         {
-            cin >> temp;
-            s.insert(temp);
+            int x;
+            cin >> x;
+            if (!infected[x])
+            {
+                infected[x] = true;
+                uninfectedCount--;
+            }
         }
-        else if (q_num == 2)
+        else if (command == 2)
         {
-            cin >> temp;
-            s.erase(temp);
+            int x;
+            cin >> x;
+            if (infected[x])
+            {
+                infected[x] = false;
+                uninfectedCount++;
+            }
         }
-        else if (q_num == 3)
+        else if (command == 3)
         {
-            cout << n - s.size() << "\n";
+            cout << uninfectedCount << "\n";
         }
     }
     return 0;
