@@ -1,76 +1,64 @@
 import java.util.*;
 import java.io.*;
 
-class Solution
-{
-	public static void main(String args[]) throws Exception
-	{
-		Scanner sc = new Scanner(System.in);
-		int T;
-		T=10;
-        
-		for(int test_case = 1; test_case <= T; test_case++)
-		{
+public class Solution {
+
+	public static void main(String[] args) throws Exception {
+		// BufferedReader br = new BufferedReader(new FileReader("input.txt"));
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		int T = 10;
+		for(int test_case = 1; test_case <= T; ++test_case) {
+			int test_case_num = Integer.parseInt(br.readLine());
 			int[][] maze = new int[16][16];
-            int t = sc.nextInt();
-            int startX = 0, startY = 0, finishX = 0, finishY = 0;
-            int res = 0;
-            for(int i = 0; i < 16; ++i) {
-             	String s = sc.next();
-                char[] charArr = s.toCharArray();
-                for(int j = 0; j < charArr.length; ++j) {
-                    maze[i][j] = charArr[j] - '0';
-                    if(maze[i][j] == 2) {
-                        startX = j;
-                        startY = i;
-                    }
-                    if(maze[i][j] == 3) {
-                        finishX = j;
-                        finishY = i;
-                    }
-                }
-            }
-
-            Deque<int[]> visited = new ArrayDeque<>();
-            int[] dx = {1, 0, -1, 0}; // 오른쪽, 아래, 왼쪽, 위
-            int[] dy = {0, -1, 0, 1};
-
-            visited.push(new int[] {startY, startX});
-            maze[startY][startX] = -1;
-            while(!visited.isEmpty()) {
-
-                int[] cur = visited.peek();
-
-                if(res == 1) {
-                    break;
-                }
-
-                // 상하좌우 중 갈 수 있는 길이 있으면 이동
-                int dir = 0;
-                for( ; dir < 4; ++dir) {
-                    int ny = cur[0] + dy[dir];
-                    int nx = cur[1] + dx[dir];
-                    
-                    if(ny >= 0 && ny < 16 && nx >= 0 && nx < 16) {
-                        if(maze[ny][nx] == 0 || maze[ny][nx] == 3) {
-                            if(maze[ny][nx] == 3) {
-                                res = 1;
-                            }
-                            maze[ny][nx] = -1;
-                            visited.push(new int[] {ny, nx});
-                            break;
-                        }
-                    }
-                }
-
-                // 갈 수 있는 길이 없으면, 한 칸 전으로 되돌아가기.
-                if(dir == 4) {
-                    visited.pop();
-                }
-            }
-
-            
-            System.out.println("#" + t + " " + res);
+			int startX = 0;
+			int startY = 0;
+			
+			for(int i = 0; i < 16; ++i) {
+				String s = br.readLine();
+				char[] charArray = s.toCharArray();
+				for(int j = 0; j < 16; ++j) {
+					maze[i][j] = charArray[j] - '0';
+					if(maze[i][j] == 2) {
+						startX = j;
+						startY = i;
+					}
+				}
+			}
+			
+			Queue<int[]> queue = new ArrayDeque<>();
+			queue.offer(new int[] {startY, startX});
+			maze[startY][startX] = -1;
+			boolean isFindFinish = false;
+			int[] dx = {1, 0, -1, 0};
+			int[] dy = {0, -1, 0, 1};
+			
+			while(!queue.isEmpty()) {
+				int[] cur = queue.poll();
+				if(isFindFinish) {
+					break;
+				}
+				
+				for(int i = 0; i < 4; ++i) {
+					int nx = cur[1] + dx[i];
+					int ny = cur[0] + dy[i];
+					if(nx < 16 && nx >= 0 && ny < 16 && ny >= 0) {
+						if(maze[ny][nx] == 0 || maze[ny][nx] == 3) {
+							if(maze[ny][nx] == 0) {
+								queue.offer(new int[] {ny, nx});
+								maze[ny][nx] = -1;
+							} else {
+								System.out.println("#" + test_case_num + " 1");
+								isFindFinish = true;
+								break;
+							}
+						}
+					}
+				}
+			}
+			
+			if(!isFindFinish) {
+				System.out.println("#" + test_case_num + " 0");
+			}
 		}
 	}
 }
