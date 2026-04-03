@@ -20,17 +20,17 @@ public class Main {
 					}
 					int endIndex = j;
 					String newNum = line.substring(startIndex, endIndex);
-					BigInteger bigNum = new BigInteger(newNum);
-					list.add(bigNum.toString());
-//					int zeroIndex = 0;
-//					while(zeroIndex < newNum.length() && newNum.charAt(zeroIndex) == '0') {
-//						zeroIndex++;
-//					}
-//					if(zeroIndex == newNum.length()) {
-//						list.add("0");
-//					} else {
-//						list.add(newNum.substring(zeroIndex));
-//					}
+					// BigInteger bigNum = new BigInteger(newNum);
+					// list.add(bigNum.toString());
+					int zeroIndex = 0;
+					while(zeroIndex < newNum.length() && newNum.charAt(zeroIndex) == '0') {
+						zeroIndex++;
+     				}
+					if(zeroIndex == newNum.length()) {
+						list.add("0");
+					} else {
+						list.add(newNum.substring(zeroIndex));
+					}
 				}
 			}
 		}
